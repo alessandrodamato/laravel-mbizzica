@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('pastes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('content');
             $table->string('title')->nullable();
             $table->tinyInteger('visibility'); // gestisco la visibilità con 1,2,3 assegnando ad ognuno una specifica funzione (pubblico, privato, non elencato)
