@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('paste_tag', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('paste_id');
             $table->unsignedBigInteger('tag_id');
 

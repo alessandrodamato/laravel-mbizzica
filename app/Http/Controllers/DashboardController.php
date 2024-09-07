@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index(){
-
-      return view('admin.dashboard');
+      $n_pastes = Paste::where('user_id', Auth::id())->count();
+      return view('admin.dashboard', compact('n_pastes'));
     }
 }

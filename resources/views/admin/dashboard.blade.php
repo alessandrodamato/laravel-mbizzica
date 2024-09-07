@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">Hai {{ 2 }} note</div>
+                <div class="card-header">Hai {{ $n_pastes }} note</div>
 
                 <div class="card-body">
                     @if (session('status'))
