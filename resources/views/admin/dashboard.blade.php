@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">Hai {{ $n_pastes }} note</div>
+                <div class="card-header">Hai {{ $n_pastes }} paste</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -17,7 +17,8 @@
                     </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    <h6 class="mb-0"><a href="{{route('pastes.index')}}" class="text-decoration-none text-black">I tuoi paste</a></h6>
+
                 </div>
             </div>
         </div>

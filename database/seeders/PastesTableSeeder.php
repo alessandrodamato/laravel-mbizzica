@@ -29,8 +29,6 @@ class PastesTableSeeder extends Seeder
         $new_paste->title = $faker->realText(20);
         $new_paste->visibility = $faker->numberBetween(1, 3);
         $new_paste->expiration_date = $faker->date();
-        $new_paste->password = '12341234';
-        $new_paste->file = 'uploads/xxx.jpg';
         $new_paste->save();
 
       }

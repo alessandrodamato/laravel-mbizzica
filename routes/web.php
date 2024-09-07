@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PasteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TwoFactorController;
@@ -16,11 +17,11 @@ use App\Http\Controllers\TwoFactorController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [PasteController::class, 'publicIndex']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('admin.dashboard');
+
+Route::resource('/pastes', PasteController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->tinyInteger('visibility'); // gestisco la visibilità con 1,2,3 assegnando ad ognuno una specifica funzione (pubblico, privato, non elencato)
             $table->date('expiration_date')->nullable();
-            $table->string('password', 32)->nullable(); // hash della password
-            $table->string('file');
+            $table->string('password')->nullable(); // hash della password
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }
