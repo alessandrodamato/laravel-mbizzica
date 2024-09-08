@@ -4,17 +4,7 @@
 
 <div class="container py-5 text-center">
 
-  <h1 class="mb-3">
-    Crea un nuovo paste
-    @isset($paste)
-    <form onsubmit="return confirm('Sei sicuro di voler eliminare {{$paste->name}} ?')"
-      action="{{route('admin.projects.destroy', $paste)}}" method="POST" class="d-inline-block">
-      @csrf
-      @method('DELETE')
-      <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-    </form>
-    @endisset
-  </h1>
+  <h1 class="mb-3"> Crea un nuovo paste</h1>
 
   <div class="row">
 

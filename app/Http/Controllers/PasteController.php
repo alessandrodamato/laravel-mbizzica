@@ -17,12 +17,16 @@ class PasteController extends Controller
    */
   public function index()
   {
-    return view('admin.pastes.index');
+    $pastes = Paste::where('user_id', Auth::id())->get()->sortDesc();
+    $message = 'Non hai paste nel tuo database';
+    return view('admin.pastes.index', compact('pastes', 'message'));
   }
 
-  public function publicIndex(){
+  public function publicIndex()
+  {
     $pastes = Paste::where('visibility', 1)->get()->sortDesc();
-    return view('home', compact('pastes'));
+    $message = 'Non ci sono paste pubblici';
+    return view('home', compact('pastes', 'message'));
   }
 
   /**
@@ -59,9 +63,9 @@ class PasteController extends Controller
     $new_paste->fill($form_data);
     $new_paste->save();
 
-    if(isset($form_data['tags'])){
+    if (isset($form_data['tags'])) {
       $tags = explode(',', $form_data['tags']);
-      foreach($tags as $tag){
+      foreach ($tags as $tag) {
         $new_tag = new Tag();
         $new_tag->name = $tag;
         $new_tag->save();
@@ -72,12 +76,50 @@ class PasteController extends Controller
     return redirect()->route('pastes.index')->with('success', 'Paste creato con successo');
   }
 
+  public function getPassword(Request $request) {}
+
   /**
    * Display the specified resource.
    */
-  public function show(string $id)
+
+  public function show(Request $request, string $id)
   {
-    //
+    $paste = Paste::find($id);
+
+    if (!$paste) {
+      return redirect()->route('home');
+    }
+
+    $user = auth()->user();
+
+    if ($paste->visibility === 1) {
+      $paste->visibility = 'Pubblico';
+    } elseif ($paste->visibility === 2) {
+      $paste->visibility = 'Privato';
+      if (!$user || $paste->user_id !== $user->id) {
+        return redirect()->route('home');
+      }
+    } elseif ($paste->visibility === 3) {
+      $paste->visibility = 'Non in elenco';
+    }
+
+    if ($user && $paste->user_id === $user->id) {
+      return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => true]);
+    }
+
+    if ($request->has('confirm')) {
+      $inputPassword = $request->input('confirm');
+
+      if (Hash::check($inputPassword, $paste->password)) {
+        return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => true]);
+      } else {
+        return redirect()->route('pastes.show', $paste->id)
+          ->withErrors(['confirm' => 'Password non corretta'])
+          ->withInput();
+      }
+    }
+
+    return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => false]);
   }
 
   /**
