@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\PasteRequest;
+use App\Functions\WriteToFile;
+use App\Models\Comment;
 
 class PasteController extends Controller
 {
@@ -17,29 +19,67 @@ class PasteController extends Controller
    */
   public function index()
   {
-    $pastes = Paste::where('user_id', Auth::id())->get()->sortDesc();
+    $pastes = Paste::where('user_id', Auth::id())->orderBy('id', 'desc')->get();
     $message = 'Non hai paste nel tuo database';
     return view('admin.pastes.index', compact('pastes', 'message'));
   }
 
-  public function publicIndex()
+  public function getPublicPastes()
   {
-    $pastes = Paste::where('visibility', 1)->get()->sortDesc();
+    $pastes = Paste::where('visibility', 1)->orderBy('id', 'desc')->get();
+    $tags = Tag::all();
     $message = 'Non ci sono paste pubblici';
-    return view('home', compact('pastes', 'message'));
+    return view('home', compact('pastes', 'message', 'tags'));
   }
+
+  public function getPublicPastesBySearch(Request $request)
+  {
+    $title = $request->input('title', '');
+    $content = $request->input('content', '');
+    $tagId = $request->input('tag', '');
+    $expirationDate = $request->input('expiration_date', '');
+
+    $query = Paste::where('visibility', 1);
+
+    if (!empty($title)) {
+      $query->where('title', 'like', "%$title%");
+    }
+
+    if (!empty($content)) {
+      $query->where('content', 'like', "%$content%");
+    }
+
+    if (!empty($tagId)) {
+      $query->whereHas('tags', function ($q) use ($tagId) {
+        $q->where('tags.id', $tagId);
+      });
+    }
+
+    if (!empty($expirationDate)) {
+      $query->whereDate('expiration_date', '=', $expirationDate);
+    }
+
+    $pastes = $query->orderBy('id', 'desc')->get();
+    $message = 'Nessun risultato con questa ricerca';
+
+    $tags = Tag::all();
+
+    return view('home', compact('pastes', 'message', 'tags'));
+  }
+
 
   /**
    * Show the form for creating a new resource.
    */
   public function create()
   {
+    // li passo dinamicamente per un eventuale edit in un'unica view
     $paste = null;
     $tags = Tag::all();
     $method = 'POST';
     $btn = 'Crea';
     $route = route('pastes.store');
-    return view('admin.pastes.create-edit', compact('paste', 'tags', 'method', 'btn', 'route'));
+    return view('admin.pastes.create', compact('paste', 'tags', 'method', 'btn', 'route'));
   }
 
   /**
@@ -67,11 +107,13 @@ class PasteController extends Controller
       $tags = explode(',', $form_data['tags']);
       foreach ($tags as $tag) {
         $new_tag = new Tag();
-        $new_tag->name = $tag;
+        $new_tag->name = trim($tag);
         $new_tag->save();
         $new_paste->tags()->attach($new_tag);
       }
     }
+
+    WriteToFile::write($new_paste);
 
     return redirect()->route('pastes.index')->with('success', 'Paste creato con successo');
   }
@@ -85,6 +127,7 @@ class PasteController extends Controller
   public function show(Request $request, string $id)
   {
     $paste = Paste::find($id);
+    $comments = Comment::where('paste_id', $paste->id)->get();
 
     if (!$paste) {
       return redirect()->route('home');
@@ -119,7 +162,7 @@ class PasteController extends Controller
       }
     }
 
-    return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => false]);
+    return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => false, 'comments' => $comments]);
   }
 
   /**
@@ -127,7 +170,7 @@ class PasteController extends Controller
    */
   public function edit(string $id)
   {
-    return view('admin.pastes.create-edit');
+
   }
 
   /**

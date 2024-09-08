@@ -10,7 +10,7 @@
 
     @if($errors->any())
     <div class="col-6 offset-3">
-      <div class="alert alert-danger text-start " role="alert">
+      <div class="alert alert-danger text-start" role="alert">
         <ul class="m-0">
           @foreach ($errors->all() as $error)
           <li>{{$error}}</li>
@@ -33,11 +33,8 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="title" class="form-label">Titolo</label>
-                <input name="title" type="text" class="form-control @error('title') is-invalid @enderror" id="title"
+                <input name="title" type="text" class="form-control" id="title"
                   placeholder="Aggiungi titolo" value="{{old('title', $paste?->title)}}">
-                @error('title')
-                <div class="text-danger my-1" style="font-size: .8rem">{{$message}}</div>
-                @enderror
               </div>
             </div>
 
@@ -62,44 +59,32 @@
             <div class="col-4">
               <div class="mb-3">
                 <label for="expiration_date" class="form-label">Data di scadenza</label>
-                <input name="expiration_date" type="date" class="form-control @error('expiration_date') is-invalid @enderror" id="expiration_date"
+                <input name="expiration_date" type="date" class="form-control" id="expiration_date"
                 value="{{old('expiration_date', $paste?->expiration_date)}}">
-                @error('expiration_date')
-                <div class="text-danger my-1" style="font-size: .8rem">{{$message}}</div>
-                @enderror
               </div>
             </div>
 
             <div class="col-4">
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input name="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                <input name="password" type="password" class="form-control"
                   id="password" placeholder="Password" value="{{old('password', $paste?->password)}}">
-                @error('password')
-                <div class="text-danger my-1" style="font-size: .8rem">{{$message}}</div>
-                @enderror
               </div>
             </div>
 
             <div class="col-12">
               <div class="mb-3">
                 <label for="file" class="form-label">File</label>
-                <input name="file" type="file" class="form-control @error('file') is-invalid @enderror" id="file"
+                <input name="file" type="file" class="form-control" id="file"
                   placeholder="file" value="{{old('file', $paste?->file)}}">
-                @error('file')
-                <div class="text-danger my-1" style="font-size: .8rem">{{$message}}</div>
-                @enderror
               </div>
             </div>
 
             <div class="col-12">
               <div class="mb-3">
                 <label for="tag" class="form-label">Tag</label>
-                <input name="tags" type="text" class="form-control @error('tag') is-invalid @enderror" id="tag"
+                <input name="tags" type="text" class="form-control" id="tag"
                   placeholder="Aggiungi uno o più tag separati da una virgola: es. Giallo,Verde" value="{{old('tag', $paste?->tag)}}">
-                @error('tag')
-                <div class="text-danger my-1" style="font-size: .8rem">{{$message}}</div>
-                @enderror
               </div>
             </div>
 

@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;
 use App\Models\Paste;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use App\Functions\WriteToFile;
 
 class PastesTableSeeder extends Seeder
 {
@@ -29,8 +31,10 @@ class PastesTableSeeder extends Seeder
         $new_paste->title = $faker->realText(20);
         $new_paste->visibility = $faker->numberBetween(1, 3);
         $new_paste->expiration_date = $faker->date();
+        $new_paste->password = Hash::make('123');
         $new_paste->save();
 
+        WriteToFile::write($new_paste);
       }
     }
   }

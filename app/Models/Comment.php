@@ -5,32 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Paste extends Model
+class Comment extends Model
 {
   use HasFactory;
 
   protected $fillable = [
     'user_id',
-    'content',
-    'title',
-    'visibility',
-    'expiration_date',
-    'password',
-    'file',
+    'paste_id',
+    'text'
   ];
-
-  public function tags()
-  {
-    return $this->belongsToMany(Tag::class);
-  }
 
   public function user()
   {
     return $this->belongsTo(User::class);
   }
 
-  public function comments()
+  public function paste()
   {
-    return $this->hasMany(Comment::class);
+    return $this->belongsTo(Paste::class);
   }
+
 }

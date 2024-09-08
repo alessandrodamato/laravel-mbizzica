@@ -27,6 +27,22 @@
   @endif
 
   <p class="m-0" style="word-wrap: break-word; overflow-wrap: break-word">{{$paste->content}}</p>
+
+  @auth
+  <div class="mt-5">
+    <h3>Aggiungi un commento</h3>
+    <form action="{{ route('comments.store') }}" method="POST">
+      @csrf
+      <input type="hidden" name="paste_id" value="{{ $paste->id }}">
+      <div class="mb-3">
+        <label for="text" class="form-label">Commento:</label>
+        <textarea class="form-control" id="text" name="text" rows="4">{{ old('text') }}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Aggiungi Commento</button>
+    </form>
+  </div>
+  @endauth
+
   @else
   <form action="{{ route('pastes.show', $paste->id) }}" method="GET" class="w-50 mx-auto">
     @csrf
@@ -43,7 +59,6 @@
   </div>
   @endif
   @endif
-
 </div>
 
 @endsection
