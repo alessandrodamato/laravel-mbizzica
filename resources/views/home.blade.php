@@ -5,7 +5,12 @@
 <div class="container my-5">
   @if (count($pastes) > 0)
   <div class="d-flex align-items-center justify-content-between px-3">
-    <h3 class="text-center m-0">Paste pubblici</h3>
+    <div class="d-flex">
+      <h3 class="text-center m-0 me-2">Paste pubblici</h3>
+      @if (!Auth::id())
+        <a href="{{route('noauth-pastes.create')}}" class="btn btn-success"><i class="fa-solid fa-plus"></i></a>
+      @endif
+    </div>
     <form action="{{ route('search') }}" method="GET" class="d-flex">
       @csrf
       <input type="date" class="form-control me-2" placeholder="Data di scadenza" name="expiration_date"

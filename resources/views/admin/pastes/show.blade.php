@@ -31,7 +31,7 @@
   @if ($comments !== null)
 
   @auth
-  <div class="mb-5">
+  <div class="mb-5 w-50 mx-auto">
     <h3>Aggiungi un commento</h3>
     <form action="{{ route('comments.store') }}" method="POST">
       @csrf
@@ -39,7 +39,9 @@
       <div class="mb-3">
         <textarea class="form-control" id="text" name="text" rows="4">{{ old('text') }}</textarea>
       </div>
-      <button type="submit" class="btn btn-secondary float-end">Pubblica</button>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-secondary">Pubblica</button>
+      </div>
     </form>
   </div>
   @endauth

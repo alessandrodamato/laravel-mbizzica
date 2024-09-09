@@ -12,9 +12,11 @@
               <h4 class="card-title">{!! $paste->title ? $paste->title : '&nbsp;' !!}</h4>
               <p>{{ \Illuminate\Support\Str::limit($paste->content, 150) }}</p>
             </div>
-            <div class="card-read-more">
-              <a href="{{route('pastes.show', $paste)}}" class="btn btn-link btn-block">Vai al dettaglio</a>
-            </div>
+            @if ($paste->id)
+              <div class="card-read-more">
+                <a href="{{route('pastes.show', $paste)}}" class="btn btn-link btn-block">Vai al dettaglio</a>
+              </div>
+            @endif
           </div>
         </div>
         @empty

@@ -27,8 +27,23 @@ class PasteController extends Controller
   public function getPublicPastes()
   {
     $pastes = Paste::where('visibility', 1)->orderBy('id', 'desc')->get();
+    $filePath = 'data/noauth-pastes.json';
+
+    if (Storage::exists($filePath)) {
+      $jsonData = Storage::get($filePath);
+      $jsonPastes = json_decode($jsonData, true);
+
+      if (is_array($jsonPastes)) {
+        $jsonPastesCollection = collect($jsonPastes)->map(function ($pasteData) {
+          return new Paste((array) $pasteData);
+        });
+        $pastes = $pastes->concat($jsonPastesCollection);
+      }
+    }
+
     $tags = Tag::all();
     $message = 'Non ci sono paste pubblici';
+
     return view('home', compact('pastes', 'message', 'tags'));
   }
 
@@ -66,7 +81,6 @@ class PasteController extends Controller
 
     return view('home', compact('pastes', 'message', 'tags'));
   }
-
 
   /**
    * Show the form for creating a new resource.

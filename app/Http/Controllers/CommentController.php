@@ -32,7 +32,7 @@ class CommentController extends Controller
   {
     $request->validate([
       'paste_id' => 'required|exists:pastes,id',
-      'text' => 'required|string|max:1000',
+      'text' => 'required|string|max:3000',
     ]);
 
     $comment = new Comment();

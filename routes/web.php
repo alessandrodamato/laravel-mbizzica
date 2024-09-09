@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NoAuthPasteController;
 use App\Http\Controllers\PasteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 
 // pastes
 Route::resource('/pastes', PasteController::class)->except('edit', 'update', 'destroy');
+Route::resource('/noauth-pastes', NoAuthPasteController::class);
 Route::get('/search', [PasteController::class, 'getPublicPastesBySearch'])->name('search');
 
 // comments
