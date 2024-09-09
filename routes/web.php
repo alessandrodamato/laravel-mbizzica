@@ -28,7 +28,7 @@ Route::resource('/pastes', PasteController::class)->except('edit', 'update', 'de
 Route::get('/search', [PasteController::class, 'getPublicPastesBySearch'])->name('search');
 
 // comments
-Route::resource('/comments', CommentController::class);
+Route::resource('/comments', CommentController::class)->only('store');
 
 // profile
 Route::middleware('auth')->group(function () {

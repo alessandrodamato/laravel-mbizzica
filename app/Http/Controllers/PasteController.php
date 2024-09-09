@@ -118,8 +118,6 @@ class PasteController extends Controller
     return redirect()->route('pastes.index')->with('success', 'Paste creato con successo');
   }
 
-  public function getPassword(Request $request) {}
-
   /**
    * Display the specified resource.
    */
@@ -127,12 +125,12 @@ class PasteController extends Controller
   public function show(Request $request, string $id)
   {
     $paste = Paste::find($id);
-    $comments = Comment::where('paste_id', $paste->id)->get();
 
     if (!$paste) {
       return redirect()->route('home');
     }
 
+    $comments = Comment::where('paste_id', $paste->id)->with('user')->get();
     $user = auth()->user();
 
     if ($paste->visibility === 1) {
@@ -147,14 +145,15 @@ class PasteController extends Controller
     }
 
     if ($user && $paste->user_id === $user->id) {
-      return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => true]);
+      $comments = null;
+      return view('admin.pastes.show', compact('paste', 'comments') + ['password_correct' => true]);
     }
 
     if ($request->has('confirm')) {
       $inputPassword = $request->input('confirm');
 
       if (Hash::check($inputPassword, $paste->password)) {
-        return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => true]);
+        return view('admin.pastes.show', compact('paste', 'comments') + ['password_correct' => true]);
       } else {
         return redirect()->route('pastes.show', $paste->id)
           ->withErrors(['confirm' => 'Password non corretta'])
@@ -162,8 +161,9 @@ class PasteController extends Controller
       }
     }
 
-    return view('admin.pastes.show', ['paste' => $paste, 'password_correct' => false, 'comments' => $comments]);
+    return view('admin.pastes.show', compact('paste', 'comments') + ['password_correct' => false]);
   }
+
 
   /**
    * Show the form for editing the specified resource.

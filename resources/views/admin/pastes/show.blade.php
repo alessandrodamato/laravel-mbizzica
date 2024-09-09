@@ -26,22 +26,38 @@
   </h3>
   @endif
 
-  <p class="m-0" style="word-wrap: break-word; overflow-wrap: break-word">{{$paste->content}}</p>
+  <p class="mb-5" style="word-wrap: break-word; overflow-wrap: break-word">{{$paste->content}}</p>
+
+  @if ($comments !== null)
 
   @auth
-  <div class="mt-5">
+  <div class="mb-5">
     <h3>Aggiungi un commento</h3>
     <form action="{{ route('comments.store') }}" method="POST">
       @csrf
       <input type="hidden" name="paste_id" value="{{ $paste->id }}">
       <div class="mb-3">
-        <label for="text" class="form-label">Commento:</label>
         <textarea class="form-control" id="text" name="text" rows="4">{{ old('text') }}</textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Aggiungi Commento</button>
+      <button type="submit" class="btn btn-secondary float-end">Pubblica</button>
     </form>
   </div>
   @endauth
+
+  @if (count($comments) > 0)
+    @if(count($comments) !== 1) <h4>{{count($comments)}} commenti</h4> @else <h4>1 commento</h1> @endif
+  @endif
+
+  @forelse ($comments as $comment)
+  <div class="comment border border-dark-subtle mb-3 p-3 rounded-2">
+    <div class="fw-bold text-start">{{$comment->user->name}}: </div>
+    <p class="m-0 text-start" style="word-wrap: break-word; overflow-wrap: break-word">{{$comment->text}}</p>
+  </div>
+  @empty
+  <h4>0 commenti</h4>
+  @endforelse
+
+  @endif
 
   @else
   <form action="{{ route('pastes.show', $paste->id) }}" method="GET" class="w-50 mx-auto">
@@ -58,6 +74,7 @@
     {{ $errors->first('confirm') }}
   </div>
   @endif
+
   @endif
 </div>
 
