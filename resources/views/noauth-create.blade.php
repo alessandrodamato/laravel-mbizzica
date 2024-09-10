@@ -30,7 +30,6 @@
 
           <div class="row">
 
-            <!-- Campo del titolo -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="title" class="form-label">Titolo</label>
@@ -39,7 +38,6 @@
               </div>
             </div>
 
-            <!-- Campo del contenuto -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="content" class="form-label">Contenuto</label>
@@ -48,19 +46,17 @@
               </div>
             </div>
 
-            <!-- Campo della visibilità -->
             <div class="col-4">
               <div class="mb-3">
                 <label for="visibility" class="form-label">Visibilità</label>
                 <select class="form-select" name="visibility" id="visibility">
-                  <option value="1">Pubblico</option>
-                  <option value="2">Privato</option>
-                  <option value="3">Non in elenco</option>
+                  <option value="1" @if (old('visibility') == 1) selected @endif >Pubblico</option>
+                  <option value="2" @if (old('visibility') == 2) selected @endif >Privato</option>
+                  <option value="3" @if (old('visibility') == 3) selected @endif >Non in elenco</option>
                 </select>
               </div>
             </div>
 
-            <!-- Campo della data di scadenza -->
             <div class="col-4">
               <div class="mb-3">
                 <label for="expiration_date" class="form-label">Data di scadenza</label>
@@ -69,7 +65,6 @@
               </div>
             </div>
 
-            <!-- Campo della password -->
             <div class="col-4">
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -78,7 +73,6 @@
               </div>
             </div>
 
-            <!-- Campo del file -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="file" class="form-label">File</label>
@@ -87,7 +81,6 @@
               </div>
             </div>
 
-            <!-- Campo dei tag -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="tag" class="form-label">Tag</label>
@@ -97,12 +90,10 @@
               </div>
             </div>
 
-            <!-- Campo reCAPTCHA -->
             <div class="col-6 mb-3">
               <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
             </div>
 
-            <!-- Pulsante di invio -->
             <div class="col-6">
               <div class="float-end mt-3">
                 <button type="submit" class="btn btn-primary ms-3">{{$btn}}</button>

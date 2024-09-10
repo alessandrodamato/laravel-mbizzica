@@ -4,7 +4,10 @@
 
 <div class="container my-5 text-center">
 
+  {{-- se non c'è la password o arriva corretta mostro il paste --}}
   @if (!$paste->password || $password_correct)
+
+  {{-- paste --}}
   <h1 class="text-center mb-3">{{$paste->title}}</h1>
 
   <div>
@@ -27,9 +30,11 @@
   @endif
 
   <p class="mb-5" style="word-wrap: break-word; overflow-wrap: break-word">{{$paste->content}}</p>
+  {{-- /paste --}}
 
   @if ($comments !== null)
 
+  {{-- se sono autenticato posso commentare --}}
   @auth
   <div class="mb-5 w-50 mx-auto">
     <h3>Aggiungi un commento</h3>
@@ -46,10 +51,12 @@
   </div>
   @endauth
 
+  {{-- oppure chiedo di accedere  --}}
   @guest
     <h6 class="mb-3">Vuoi pubblicare un commento? <a href="{{route('login')}}" class="text-secondary">Accedi</a></h6>
   @endguest
 
+  {{-- commenti --}}
   @if (count($comments) > 0)
     @if(count($comments) !== 1) <h4>{{count($comments)}} commenti</h4> @else <h4>1 commento</h1> @endif
   @endif
@@ -62,9 +69,11 @@
   @empty
   <h4>0 commenti</h4>
   @endforelse
+  {{-- /commenti --}}
 
   @endif
 
+  {{-- altrimenti chiedo la password  --}}
   @else
   <form action="{{ route('pastes.show', $paste->id) }}" method="GET" class="w-50 mx-auto">
     @csrf
@@ -82,6 +91,7 @@
   @endif
 
   @endif
+
 </div>
 
 @endsection

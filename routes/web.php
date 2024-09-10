@@ -26,7 +26,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 
 // pastes
 Route::resource('/pastes', PasteController::class)->except('edit', 'update', 'destroy');
-Route::resource('/noauth-pastes', NoAuthPasteController::class);
+Route::resource('/noauth-pastes', NoAuthPasteController::class)->only('create', 'store');
 Route::get('/search', [PasteController::class, 'getPublicPastesBySearch'])->name('search');
 
 // comments

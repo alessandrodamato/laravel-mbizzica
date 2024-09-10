@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('content');
             $table->string('title')->nullable();
-            $table->tinyInteger('visibility'); // gestisco la visibilità con 1,2,3 assegnando ad ognuno una specifica funzione (pubblico, privato, non elencato)
+            $table->tinyInteger('visibility');
             $table->date('expiration_date')->nullable();
-            $table->string('password')->nullable(); // hash della password
+            $table->string('password')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
         });
