@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Paste;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewComment;
 
 class CommentController extends Controller
 {
@@ -40,6 +41,8 @@ class CommentController extends Controller
     $comment->paste_id = $request->input('paste_id');
     $comment->text = $request->input('text');
     $comment->save();
+
+    Mail::to($comment->paste->user->email)->send(new NewComment($comment));
 
     return redirect()->route('pastes.show', $request->input('paste_id'))
     ->with('success', 'Commento aggiunto con successo!');

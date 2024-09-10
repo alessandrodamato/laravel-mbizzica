@@ -79,7 +79,7 @@
     @csrf
     <div class="mb-3">
       <label for="confirm" class="form-label">Inserisci password per visualizzare il contenuto:</label>
-      <input type="password" class="form-control" id="confirm" name="confirm" value="{{ old('confirm') }}">
+      <input type="password" class="form-control" id="confirm" name="confirm">
     </div>
     <button type="submit" class="btn btn-primary">Invia</button>
   </form>
