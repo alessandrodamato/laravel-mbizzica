@@ -46,6 +46,10 @@
   </div>
   @endauth
 
+  @guest
+    <h6 class="mb-3">Vuoi pubblicare un commento? <a href="{{route('login')}}" class="text-secondary">Accedi</a></h6>
+  @endguest
+
   @if (count($comments) > 0)
     @if(count($comments) !== 1) <h4>{{count($comments)}} commenti</h4> @else <h4>1 commento</h1> @endif
   @endif

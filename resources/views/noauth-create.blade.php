@@ -30,66 +30,81 @@
 
           <div class="row">
 
+            <!-- Campo del titolo -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="title" class="form-label">Titolo</label>
                 <input name="title" type="text" class="form-control" id="title" placeholder="Aggiungi titolo"
-                  value="{{old('title', $paste?->title)}}">
+                  value="{{old('title')}}">
               </div>
             </div>
 
+            <!-- Campo del contenuto -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="content" class="form-label">Contenuto</label>
                 <textarea name="content" class="form-control" id="content"
-                  rows="8">{{old('content', $paste?->content)}}</textarea>
+                  rows="8">{{old('content')}}</textarea>
               </div>
             </div>
 
+            <!-- Campo della visibilità -->
             <div class="col-4">
               <div class="mb-3">
                 <label for="visibility" class="form-label">Visibilità</label>
                 <select class="form-select" name="visibility" id="visibility">
                   <option value="1">Pubblico</option>
+                  <option value="2">Privato</option>
+                  <option value="3">Non in elenco</option>
                 </select>
               </div>
             </div>
 
+            <!-- Campo della data di scadenza -->
             <div class="col-4">
               <div class="mb-3">
                 <label for="expiration_date" class="form-label">Data di scadenza</label>
                 <input name="expiration_date" type="date" class="form-control" id="expiration_date"
-                  value="{{old('expiration_date', $paste?->expiration_date)}}">
+                  value="{{old('expiration_date')}}">
               </div>
             </div>
 
+            <!-- Campo della password -->
             <div class="col-4">
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input name="password" type="password" class="form-control" id="password" placeholder="Password"
-                  value="{{old('password', $paste?->password)}}">
+                  value="{{old('password')}}">
               </div>
             </div>
 
+            <!-- Campo del file -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="file" class="form-label">File</label>
                 <input name="file" type="file" class="form-control" id="file" placeholder="file"
-                  value="{{old('file', $paste?->file)}}">
+                  value="{{old('file')}}">
               </div>
             </div>
 
+            <!-- Campo dei tag -->
             <div class="col-12">
               <div class="mb-3">
                 <label for="tag" class="form-label">Tag</label>
                 <input name="tags" type="text" class="form-control" id="tag"
                   placeholder="Aggiungi uno o più tag separati da una virgola: es. Giallo,Verde"
-                  value="{{old('tag', $paste?->tag)}}">
+                  value="{{old('tag')}}">
               </div>
             </div>
 
-            <div class="col-12">
-              <div class="mb-3 float-end">
+            <!-- Campo reCAPTCHA -->
+            <div class="col-6 mb-3">
+              <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
+            </div>
+
+            <!-- Pulsante di invio -->
+            <div class="col-6">
+              <div class="float-end mt-3">
                 <button type="submit" class="btn btn-primary ms-3">{{$btn}}</button>
               </div>
             </div>
@@ -106,4 +121,5 @@
 
 </div>
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection
