@@ -175,7 +175,6 @@ class PasteController extends Controller
       ->count();
 
     if ($user && $paste->user_id === $user->id) {
-      $comments = null;
       return view('admin.pastes.show', compact('paste', 'comments', 'vote', 'n_upvotes', 'n_downvotes') + ['password_correct' => true]);
     }
 

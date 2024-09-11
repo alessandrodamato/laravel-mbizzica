@@ -50,9 +50,7 @@
               <div class="mb-3">
                 <label for="visibility" class="form-label">Visibilità</label>
                 <select class="form-select" name="visibility" id="visibility">
-                  <option value="1" @if (old('visibility') == 1) selected @endif >Pubblico</option>
-                  <option value="2" @if (old('visibility') == 2) selected @endif >Privato</option>
-                  <option value="3" @if (old('visibility') == 3) selected @endif >Non in elenco</option>
+                  <option value="1">Pubblico</option>
                 </select>
               </div>
             </div>

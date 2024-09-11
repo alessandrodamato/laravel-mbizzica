@@ -18,7 +18,7 @@
   <h3 class="mb-3"><strong>Visibilità: </strong>{{$paste->visibility}}</h3>
 
   @if ($paste->expiration_date)
-  <h3 class="mb-3"><strong>Data di scadenza: </strong>{{$paste->expiration_date}}</h3>
+  <h3 class="mb-3"><strong>Data di scadenza: </strong>{{ \Carbon\Carbon::parse($paste->expiration_date)->format('d/m/Y') }}</h3>
   @endif
 
   @if (count($paste->tags) > 0)
@@ -45,8 +45,6 @@
   </form>
   @endauth
   {{-- /voti --}}
-
-  @if ($comments !== null)
 
   {{-- se sono autenticato posso commentare --}}
   @auth
@@ -84,8 +82,6 @@
   <h4>0 commenti</h4>
   @endforelse
   {{-- /commenti --}}
-
-  @endif
 
   {{-- altrimenti chiedo la password  --}}
   @else
