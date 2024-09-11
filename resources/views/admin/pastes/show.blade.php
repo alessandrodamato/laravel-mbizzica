@@ -29,8 +29,22 @@
   </h3>
   @endif
 
-  <p class="mb-5" style="word-wrap: break-word; overflow-wrap: break-word">{{$paste->content}}</p>
+  <p class="w-75 mx-auto mb-3" style="word-wrap: break-word; overflow-wrap: break-word">{{$paste->content}}</p>
   {{-- /paste --}}
+
+  {{-- voti --}}
+  @auth
+  <form class="w-50 mx-auto d-flex justify-content-end mb-5" method="POST" action="{{ route('votes.handle', $paste->id) }}">
+    @csrf
+    <button class="btn btn-sm btn-success" type="submit" name="vote" value="1">
+      {!! $vote == 1 ? '<i class="fa-solid fa-thumbs-up"></i>' : '<i class="fa-regular fa-thumbs-up"></i>' !!} {{$n_upvotes}}
+    </button>
+    <button class="btn btn-sm btn-danger ms-2" type="submit" name="vote" value="-1">
+      {!! $vote == -1 ? '<i class="fa-solid fa-thumbs-down"></i>' : '<i class="fa-regular fa-thumbs-down"></i>' !!} {{$n_downvotes}}
+    </button>
+  </form>
+  @endauth
+  {{-- /voti --}}
 
   @if ($comments !== null)
 
@@ -62,7 +76,7 @@
   @endif
 
   @forelse ($comments as $comment)
-  <div class="comment border border-dark-subtle mb-3 p-3 rounded-2">
+  <div class="comment border border-dark-subtle mb-3 p-3 rounded-2 w-50 mx-auto">
     <div class="fw-bold text-start">{{$comment->user->name}}: </div>
     <p class="m-0 text-start" style="word-wrap: break-word; overflow-wrap: break-word">{{$comment->text}}</p>
   </div>

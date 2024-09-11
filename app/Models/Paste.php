@@ -33,4 +33,9 @@ class Paste extends Model
   {
     return $this->hasMany(Comment::class);
   }
+
+  public function votes()
+  {
+    return $this->hasMany(Vote::class);
+  }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Paste;
 use App\Models\Tag;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -158,16 +159,31 @@ class PasteController extends Controller
       $paste->visibility = 'Non in elenco';
     }
 
+    $vote = null;
+    if ($user) {
+      $vote = Vote::where('user_id', $user->id)
+        ->where('paste_id', $paste->id)
+        ->value('vote');
+    }
+
+    $n_upvotes = Vote::where('paste_id', $paste->id)
+      ->where('vote', '>', 0)
+      ->count();
+
+    $n_downvotes = Vote::where('paste_id', $paste->id)
+      ->where('vote', '<', 0)
+      ->count();
+
     if ($user && $paste->user_id === $user->id) {
       $comments = null;
-      return view('admin.pastes.show', compact('paste', 'comments') + ['password_correct' => true]);
+      return view('admin.pastes.show', compact('paste', 'comments', 'vote', 'n_upvotes', 'n_downvotes') + ['password_correct' => true]);
     }
 
     if ($request->has('confirm')) {
       $inputPassword = $request->input('confirm');
 
       if (Hash::check($inputPassword, $paste->password)) {
-        return view('admin.pastes.show', compact('paste', 'comments') + ['password_correct' => true]);
+        return view('admin.pastes.show', compact('paste', 'comments', 'vote', 'n_upvotes', 'n_downvotes') + ['password_correct' => true]);
       } else {
         return redirect()->route('pastes.show', $paste->id)
           ->withErrors(['confirm' => 'Password non corretta'])
@@ -175,9 +191,8 @@ class PasteController extends Controller
       }
     }
 
-    return view('admin.pastes.show', compact('paste', 'comments') + ['password_correct' => false]);
+    return view('admin.pastes.show', compact('paste', 'comments', 'vote', 'n_upvotes', 'n_downvotes') + ['password_correct' => false]);
   }
-
 
   /**
    * Show the form for editing the specified resource.

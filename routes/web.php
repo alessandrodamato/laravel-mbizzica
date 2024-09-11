@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NoAuthPasteController;
 use App\Http\Controllers\PasteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,9 @@ Route::get('/search', [PasteController::class, 'getPublicPastesBySearch'])->name
 
 // comments
 Route::resource('/comments', CommentController::class)->only('store');
+
+// votes
+Route::post('/paste/{id}/vote', [VoteController::class, 'handleVote'])->name('votes.handle');
 
 // profile
 Route::middleware('auth')->group(function () {
